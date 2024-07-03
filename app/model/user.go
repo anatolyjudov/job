@@ -1,5 +1,6 @@
 package model
 
 type User struct {
-	Name string
+	Name   string
+	Avatar [2]rune
 }
