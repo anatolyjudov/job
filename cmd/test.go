@@ -6,7 +6,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/anatolyjudov/job/storage"
+	"github.com/anatolyjudov/job/app/service"
 
 	"github.com/spf13/cobra"
 )
@@ -19,7 +19,7 @@ var testCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("test called")
 
-		var service = storage.StorageServiceFactory("sqlite")
+		var service = service.SqliteStorageServiceFactory()
 
 		service.Init()
 	},

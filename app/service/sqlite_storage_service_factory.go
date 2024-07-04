@@ -1,8 +1,8 @@
-package storage
+package service
 
 import "github.com/anatolyjudov/job/storage/storage_driver"
 
-func StorageServiceFactory(driver string) *StorageService {
+func SqliteStorageServiceFactory() *StorageService {
 
 	driverInstance := storage_driver.SqliteDriver{}
 

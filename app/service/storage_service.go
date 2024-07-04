@@ -1,4 +1,4 @@
-package storage
+package service
 
 import "github.com/anatolyjudov/job/app/model"
 

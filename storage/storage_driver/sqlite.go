@@ -16,6 +16,20 @@ func (d SqliteDriver) Init() bool {
 }
 
 func (d SqliteDriver) SaveUser(user model.User) bool {
+	var userSql string
+
+	if user.Id() == 0 {
+		// userSql = "insert into users (Name, Avatar) values"
+	} else {
+		// userSql = "update users set (Name, Avatar) values"
+	}
+
+	statement, err := DB.Prepare(userSql)
+	if err != nil {
+		log.Fatalf("Failed to create table: %v", err)
+	}
+	statement.Exec()
+
 	return true
 }
 
