@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/anatolyjudov/job/app/model"
 	"github.com/anatolyjudov/job/app/service"
 
 	"github.com/spf13/cobra"
@@ -21,7 +22,12 @@ var testCmd = &cobra.Command{
 
 		var service = service.SqliteStorageServiceFactory()
 
-		service.Init()
+		//service.Init()
+
+		testUser := model.User{}
+		testUser.SetName("Toli").SetAvatarFromString("AY")
+
+		service.SaveUser(testUser)
 	},
 }
 

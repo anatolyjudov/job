@@ -19,7 +19,7 @@ func (u *User) Avatar() [2]rune {
 }
 
 func (u *User) AvatarAsString() string {
-	return string(u.avatar[0:1])
+	return string(u.avatar[0:2])
 }
 
 func (u *User) SetId(id int) *User {

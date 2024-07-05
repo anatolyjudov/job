@@ -10,25 +10,25 @@ import (
 
 type SqliteDriver struct{}
 
-func (d SqliteDriver) Init() bool {
-	initDB("/Users/volganian/.job/test.db")
-	return true
-}
-
 func (d SqliteDriver) SaveUser(user model.User) bool {
 	var userSql string
+	var err error
+
+	initDB("/Users/volganian/.job/test.db")
 
 	if user.Id() == 0 {
-		// userSql = "insert into users (Name, Avatar) values"
+		userSql = "insert into user (name, avatar) values (?, ?)"
+		log.Output(0, user.Name())
+		log.Output(0, user.AvatarAsString())
+		_, err = DB.Exec(userSql, user.Name(), user.AvatarAsString())
 	} else {
-		// userSql = "update users set (Name, Avatar) values"
+		userSql = "update user set name = ?, avatar = ? where id = ?"
+		_, err = DB.Exec(userSql, user.Name(), user.AvatarAsString(), user.Id())
 	}
 
-	statement, err := DB.Prepare(userSql)
 	if err != nil {
-		log.Fatalf("Failed to create table: %v", err)
+		log.Fatalf("Failed to save user: %v", err)
 	}
-	statement.Exec()
 
 	return true
 }
@@ -37,6 +37,7 @@ var DB *sql.DB
 
 func initDB(filepath string) {
 	var err error
+	log.Output(0, "initialising DB")
 	DB, err = sql.Open("sqlite3", filepath)
 	if err != nil {
 		log.Fatalf("Failed to open the database: %v", err)
@@ -55,5 +56,6 @@ func createTables() {
 	if err != nil {
 		log.Fatalf("Failed to create table: %v", err)
 	}
+	log.Output(0, "table created")
 	statement.Exec()
 }
