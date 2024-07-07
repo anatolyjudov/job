@@ -6,7 +6,6 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/anatolyjudov/job/app/model"
 	"github.com/anatolyjudov/job/app/service"
 
 	"github.com/spf13/cobra"
@@ -20,14 +19,14 @@ var testCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("test called")
 
-		var service = service.SqliteStorageServiceFactory()
-
+		//var service = service.SqliteStorageServiceFactory()
 		//service.Init()
 
-		testUser := model.User{}
-		testUser.SetName("Toli").SetAvatarFromString("AY")
+		userService := service.UserServiceFactory()
 
-		service.SaveUser(testUser)
+		user := userService.Add("Toli", "AY")
+
+		fmt.Printf("%+v\n", user)
 	},
 }
 

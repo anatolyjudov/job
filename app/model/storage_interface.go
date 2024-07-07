@@ -1,5 +1,5 @@
 package model
 
 type StorageInterface interface {
-	SaveUser(user User) bool
+	SaveUser(user *User) bool
 }

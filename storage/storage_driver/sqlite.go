@@ -10,7 +10,7 @@ import (
 
 type SqliteDriver struct{}
 
-func (d SqliteDriver) SaveUser(user model.User) bool {
+func (d SqliteDriver) SaveUser(user *model.User) bool {
 	var userSql string
 	var err error
 
