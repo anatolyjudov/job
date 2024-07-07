@@ -11,26 +11,48 @@ import (
 type SqliteDriver struct{}
 
 func (d SqliteDriver) SaveUser(user *model.User) bool {
-	var userSql string
-	var err error
 
 	initDB("/Users/volganian/.job/test.db")
 
 	if user.Id() == 0 {
-		userSql = "insert into user (name, avatar) values (?, ?)"
-		log.Output(0, user.Name())
-		log.Output(0, user.AvatarAsString())
-		_, err = DB.Exec(userSql, user.Name(), user.AvatarAsString())
+		id := d.createUser(user.Name(), user.AvatarAsString())
+		user.SetId(id)
 	} else {
-		userSql = "update user set name = ?, avatar = ? where id = ?"
-		_, err = DB.Exec(userSql, user.Name(), user.AvatarAsString(), user.Id())
-	}
-
-	if err != nil {
-		log.Fatalf("Failed to save user: %v", err)
+		d.updateUser(user.Id(), user.Name(), user.AvatarAsString())
 	}
 
 	return true
+}
+
+func (d SqliteDriver) createUser(name string, avatar string) int {
+	var userSql string
+	var err error
+
+	userSql = "insert into user (name, avatar) values (?, ?)"
+	result, err := DB.Exec(userSql, name, avatar)
+
+	if err != nil {
+		log.Fatalf("Failed to insert user: %v", err)
+	}
+
+	insertId, err := result.LastInsertId()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return int(insertId)
+}
+
+func (d SqliteDriver) updateUser(id int, name string, avatar string) {
+	var userSql string
+	var err error
+
+	userSql = "update user set name = ?, avatar = ? where id = ?"
+	_, err = DB.Exec(userSql, name, avatar, id)
+
+	if err != nil {
+		log.Fatalf("Failed to update user: %v", err)
+	}
 }
 
 var DB *sql.DB
