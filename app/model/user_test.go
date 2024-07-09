@@ -11,12 +11,21 @@ func TestName(t *testing.T) {
 }
 
 func TestAvatarFromString(t *testing.T) {
+	var runes [2]rune
+
 	u := User{}
 
 	u.SetAvatarFromString("FO")
 
-	runes := u.Avatar()
-	if runes[0] != rune('F') || runes[1] != rune('O') {
+	runes = u.Avatar()
+	if runes[0] != rune('F') || runes[1] != rune('O') || len(runes) != 2 {
+		t.Error("User.SetAvatarFromString test error")
+	}
+
+	u.SetAvatarFromString("ANATOLY")
+
+	runes = u.Avatar()
+	if runes[0] != rune('A') || runes[1] != rune('N') || len(runes) != 2 {
 		t.Error("User.SetAvatarFromString test error")
 	}
 }
