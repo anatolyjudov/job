@@ -7,32 +7,26 @@ import (
 	"fmt"
 
 	"github.com/anatolyjudov/job/app/service"
-
 	"github.com/spf13/cobra"
 )
 
-// testCmd represents the test command
-var testCmd = &cobra.Command{
-	Use:   "test",
-	Short: "Quick test run command",
-	Long:  ``,
+// listCmd represents the list command
+var listCmd = &cobra.Command{
+	Use:   "list",
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("test called")
+		fmt.Println("list called")
 
 		userService := service.UserServiceFactory()
 
 		list := userService.List()
-		for _, user := range list {
-			fmt.Println(user)
-		}
 
-		user2 := userService.Add("Toli", "AY")
-		fmt.Printf("Added %+v\n", user2)
-
-		userService.Delete(user2)
-		fmt.Printf("Deleted %+v\n", user2)
-
-		list = userService.List()
 		for _, user := range list {
 			fmt.Println(user)
 		}
@@ -40,15 +34,15 @@ var testCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(testCmd)
+	rootCmd.AddCommand(listCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// testCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// testCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
