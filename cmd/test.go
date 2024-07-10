@@ -1,13 +1,9 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
 	"fmt"
 
 	"github.com/anatolyjudov/job/app/service"
-
 	"github.com/spf13/cobra"
 )
 
