@@ -8,12 +8,14 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type SqliteDriver struct{}
+type SqliteDriver struct {
+	Creds map[string]string
+}
 
 func (d SqliteDriver) GetUserById(id int) *model.User {
 	var name, avatar string
 
-	initDB("/Users/volganian/.job/test.db")
+	initDB(d.Creds)
 
 	err := DB.QueryRow("select name, avatar from user where id = ?", id).Scan(&name, &avatar)
 
@@ -29,7 +31,7 @@ func (d SqliteDriver) GetUserById(id int) *model.User {
 
 func (d SqliteDriver) GetUsers() []*model.User {
 
-	initDB("/Users/volganian/.job/test.db")
+	initDB(d.Creds)
 
 	rows, err := DB.Query("select id, name, avatar from user")
 
@@ -60,7 +62,7 @@ func (d SqliteDriver) GetUsers() []*model.User {
 }
 
 func (d SqliteDriver) DeleteUser(user *model.User) bool {
-	initDB("/Users/volganian/.job/test.db")
+	initDB(d.Creds)
 
 	if user.Id() == 0 {
 		return true
@@ -77,7 +79,7 @@ func (d SqliteDriver) DeleteUser(user *model.User) bool {
 
 func (d SqliteDriver) SaveUser(user *model.User) bool {
 
-	initDB("/Users/volganian/.job/test.db")
+	initDB(d.Creds)
 
 	if user.Id() == 0 {
 		id := d.createUser(user.Name(), user.AvatarAsString())
@@ -122,8 +124,11 @@ func (d SqliteDriver) updateUser(id int, name string, avatar string) {
 
 var DB *sql.DB
 
-func initDB(filepath string) {
+func initDB(creds map[string]string) {
 	var err error
+
+	filepath := creds["filename"]
+
 	log.Output(0, "Initialising DB")
 	DB, err = sql.Open("sqlite3", filepath)
 	if err != nil {

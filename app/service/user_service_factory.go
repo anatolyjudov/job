@@ -1,8 +1,7 @@
 package service
 
 func UserServiceFactory() *UserService {
-
-	storageService := SqliteStorageServiceFactory()
+	storageService := StorageServiceFactory()
 
 	return &UserService{
 		storage: storageService,

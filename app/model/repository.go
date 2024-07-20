@@ -1,5 +1,7 @@
 package model
 
 type Repository struct {
-	Name string
+	Id    string
+	Type  string
+	Creds map[string]string
 }
