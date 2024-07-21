@@ -3,7 +3,7 @@ package service
 import "github.com/anatolyjudov/job/app/model"
 
 type StorageService struct {
-	driver model.StorageInterface
+	driver StorageInterface
 }
 
 func (s StorageService) SaveUser(user *model.User) bool {

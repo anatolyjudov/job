@@ -7,7 +7,7 @@ import (
 )
 
 type AppConfigService struct {
-	storage      model.ConfigStorageInterface
+	storage      ConfigStorageInterface
 	cachedConfig *model.AppConfig
 }
 
